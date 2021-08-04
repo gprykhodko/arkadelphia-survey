@@ -3,8 +3,7 @@
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
     <title>
-      Edit features with the Editor widget | Sample | ArcGIS API for JavaScript
-      4.20
+      Arkadelphia Survey
     </title>
 
     <link
@@ -41,10 +40,11 @@
     </style>
 
     <script>
-      require(["esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/Editor"], (
+      require(["esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/BasemapToggle", "esri/widgets/Editor"], (
         WebMap,
         MapView,
         Expand,
+        BasemapToggle,
         Editor
       ) => {
         let pointLayer;
@@ -60,7 +60,12 @@
           container: "viewDiv",
           map: webmap
         });
-
+        
+        const basemapToggle = new BasemapToggle({
+        view: view,
+        nextBasemap: "arcgis-imagery"
+        });
+       
         view.when(() => {
           view.map.loadAll().then(() => {
             view.map.allLayers.forEach((layer) => {
