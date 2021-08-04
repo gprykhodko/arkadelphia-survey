@@ -40,7 +40,7 @@
     </style>
 
     <script>
-      require(["esri/config", "esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/BasemapToggle", "esri/widgets/Search", "esri/widgets/Editor"], function(
+      require(["esri/config", "esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/BasemapToggle", "esri/widgets/Search", "esri/widgets/Editor"], (
         esriConfig,
         WebMap,
         MapView,
@@ -65,13 +65,13 @@
           map: webmap
         });
      
-        var searchWidget = new Search({
+        const searchWidget = new Search({
           view: view
         });
 
         // Add the search widget to the top right corner of the view
         view.ui.add(searchWidget, {
-          position: "top-right"
+          position: "bottom-left"
         });
         
         const basemapToggle = new BasemapToggle({
