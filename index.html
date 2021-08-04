@@ -69,6 +69,8 @@
         nextBasemap: "arcgis-imagery"
         });
        
+        view.ui.add(basemapToggle,"bottom-right");
+       
         view.when(() => {
           view.map.loadAll().then(() => {
             view.map.allLayers.forEach((layer) => {
