@@ -40,12 +40,13 @@
     </style>
 
     <script>
-      require(["esri/config", "esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/BasemapToggle", "esri/widgets/Editor"], (
+      require(["esri/config", "esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/BasemapToggle", "esri/widgets/Search", "esri/widgets/Editor"], function(
         esriConfig,
         WebMap,
         MapView,
         Expand,
         BasemapToggle,
+        Search,
         Editor
       ) => {
         let pointLayer;
@@ -62,6 +63,15 @@
         const view = new MapView({
           container: "viewDiv",
           map: webmap
+        });
+     
+        var searchWidget = new Search({
+          view: view
+        });
+
+        // Add the search widget to the top right corner of the view
+        view.ui.add(searchWidget, {
+          position: "top-right"
         });
         
         const basemapToggle = new BasemapToggle({
