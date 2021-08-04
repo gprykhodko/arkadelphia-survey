@@ -41,9 +41,10 @@
     </style>
 
     <script>
-      require(["esri/WebMap", "esri/views/MapView", "esri/widgets/Editor"], (
+      require(["esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/Editor"], (
         WebMap,
         MapView,
+        Expand,
         Editor
       ) => {
         let pointLayer;
@@ -112,6 +113,24 @@
             view.ui.add(editor, "top-right");
           });
         });
+       
+       const sampleInstructions = document.createElement("div");
+        sampleInstructions.style.padding = "10px";
+        sampleInstructions.style.backgroundColor = "white";
+        sampleInstructions.style.width = "600px";
+        sampleInstructions.innerText = [
+          "Instructions can go here as well"
+        ].join(" ");
+
+        const instructionsExpand = new Expand({
+          expandIconClass: "esri-icon-question",
+          expandTooltip: "Map description",
+          expanded: false,
+          view: view,
+          content: sampleInstructions
+        });
+        view.ui.add(instructionsExpand, "top-left");
+       
       });
     </script>
   </head>
