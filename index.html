@@ -1,4 +1,6 @@
-<meta
+<html>
+  <head>
+   <meta
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
@@ -133,6 +135,17 @@
                 ]
               }
             });
+            
+              editor.viewModel.watch('state', function(state){            
+        if(state === 'ready'){              
+          setTimeout(function(){				
+            document.getElementsByClassName("esri-editor__feature-list-item")[0].click()
+                          
+          }, 50);            
+          
+        }          
+        
+      }); 
             // Add widget to top-right of the view
             view.ui.add(editor, "top-right");
           });
