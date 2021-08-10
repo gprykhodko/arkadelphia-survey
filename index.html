@@ -1,12 +1,10 @@
 <html>
   <head>
-   <meta
+    <meta
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-    <title>
-      Arkadelphia Survey
-    </title>
+    <title>Arkadelphia Survey</title>
 
     <link
       rel="stylesheet"
@@ -15,44 +13,59 @@
     <script src="https://js.arcgis.com/4.20/"></script>
 
     <style>
-      html,
-      body,
-      #viewDiv {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 100%;
+            html,
+            body,
+            #viewDiv {
+              padding: 0;
+              margin: 0;
+              height: 100%;
+              width: 100%;
+            }
+
+           #instruction {
+              z-index: 99;
+              position: absolute;
+              top: 15px;
+              left: 50%;
+              padding: 5px;
+              margin-left: -175px;
+              height: 30px;
+              width: 420px;
+              background: rgba(25, 25, 25, 0.8);
+              color: white;
+              font-weight: bold;
+              font-size: 1em;
+            }
+            .esri-ui .esri-editor .esri-item-list__scroller {
+          max-height: 500px;
       }
-     
-     #instruction {
-        z-index: 99;
-        position: absolute;
-        top: 15px;
-        left: 50%;
-        padding: 5px;
-        margin-left: -175px;
-        height: 30px;
-        width: 420px;
-        background: rgba(25, 25, 25, 0.8);
-        color: white;
-        font-weight: bold;
-        font-size: 1em;
+            .esri-editor__content {
+              min-height: 12vh;
+            }
+
+                .esri-search {
+                        width: 300px;
+                }
+                
+          #logoDiv {
+        padding: 0px;
+        background-color: black;
+        
+        text-align: center;
+        width: 450px;
       }
-      .esri-ui .esri-editor .esri-item-list__scroller {
-    max-height: 500px;
-}
-      .esri-editor__content {
-        min-height: 12vh;
-      }
-          
-          .esri-search {
-                  width: 300px;
-          }
-          
     </style>
 
     <script>
-      require(["esri/config", "esri/WebMap", "esri/views/MapView", "esri/widgets/Expand", "esri/widgets/BasemapToggle", "esri/widgets/Search", "esri/widgets/Editor"], (
+      require([
+        "esri/config",
+        "esri/WebMap",
+        "esri/views/MapView",
+        "esri/widgets/Expand",
+        "esri/widgets/BasemapToggle",
+        "esri/widgets/Search",
+        "esri/widgets/Editor"
+      ], (
         esriConfig,
         WebMap,
         MapView,
@@ -62,9 +75,10 @@
         Editor
       ) => {
         let pointLayer;
-        
-        esriConfig.apiKey = "AAPKbef19af26f80408b97ba8a8effb03fd8G3z1r-gSDCiWESD8DAq6Zb_dDQTMzdBrcy96j6nflpG5VOR6tviHDHsUNvMGnoWD"; 
-       
+
+        esriConfig.apiKey =
+          "AAPKbef19af26f80408b97ba8a8effb03fd8G3z1r-gSDCiWESD8DAq6Zb_dDQTMzdBrcy96j6nflpG5VOR6tviHDHsUNvMGnoWD";
+
         // Create a map from the referenced webmap item id
         const webmap = new WebMap({
           portalItem: {
@@ -76,22 +90,19 @@
           container: "viewDiv",
           map: webmap
         });
-     
-        
-        
+
         const basemapToggle = new BasemapToggle({
-        view: view,
-        nextBasemap: "topo"
+          view: view,
+          nextBasemap: "topo"
         });
-       
-        view.ui.add(basemapToggle,"bottom-right");
-       
+
+        view.ui.add(basemapToggle, "bottom-right");
+
         view.when(() => {
           view.map.loadAll().then(() => {
             view.map.allLayers.forEach((layer) => {
               if (layer.type === "feature") {
                 switch (layer.geometryType) {
-              
                   case "point":
                     pointLayer = layer;
                     break;
@@ -109,8 +120,6 @@
                   name: "Comment",
                   label: "Comment"
                 }
-                
-                  
               ]
             };
 
@@ -135,23 +144,22 @@
                 ]
               }
             });
-            
-              editor.viewModel.watch('state', function(state){            
-        if(state === 'ready'){              
-          setTimeout(function(){				
-            document.getElementsByClassName("esri-editor__feature-list-item")[0].click()
-                          
-          }, 50);            
-          
-        }          
-        
-      }); 
+
+            editor.viewModel.watch("state", function (state) {
+              if (state === "ready") {
+                setTimeout(function () {
+                  document
+                    .getElementsByClassName("esri-editor__feature-list-item")[0]
+                    .click();
+                }, 50);
+              }
+            });
             // Add widget to top-right of the view
             view.ui.add(editor, "top-right");
           });
         });
-       
-       const sampleInstructions = document.createElement("div");
+
+        const sampleInstructions = document.createElement("div");
         sampleInstructions.style.padding = "10px";
         sampleInstructions.style.backgroundColor = "white";
         sampleInstructions.style.width = "600px";
@@ -167,7 +175,7 @@
           content: sampleInstructions
         });
         view.ui.add(instructionsExpand, "top-left");
-        
+
         const searchWidget = new Search({
           view: view
         });
@@ -176,7 +184,7 @@
         view.ui.add(searchWidget, {
           position: "top-right"
         });
-       
+        view.ui.add("logoDiv", "bottom-left");
       });
     </script>
   </head>
@@ -187,5 +195,10 @@
       We can put instructions here or under the question icon
     </div>
     <div id="editorDiv"></div>
+    <div id="logoDiv" class="esri-widget">
+      <img
+        src="https://www.halff.com/wp-content/themes/mastertheme-v3-halff/images/main-logo.png"
+      />
+    </div>
   </body>
 </html>
