@@ -1,0 +1,208 @@
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Arkadelphia Survey</title>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.20/esri/themes/dark/main.css"
+    />
+    <script src="https://js.arcgis.com/4.20/"></script>
+
+    <style>
+            html,
+            body,
+            #viewDiv {
+              padding: 0;
+              margin: 0;
+              height: 100%;
+              width: 100%;
+            }
+
+           #instruction {
+              z-index: 99;
+              position: absolute;
+              text-align: left;
+              top: 15px;
+              left: 50%;
+              padding: 10px;
+              margin-left: -300px;
+              height: 100px;
+              width: 530px;
+              background: rgba(25, 25, 25, 0.8);
+              color: white;
+              font-weight: bold;
+              font-size: 1em;
+            }
+            .esri-ui .esri-editor .esri-item-list__scroller {
+          max-height: 500px;
+      }
+            .esri-editor__content {
+              min-height: 12vh;
+            }
+
+                .esri-search {
+                        width: 300px;
+                }
+                
+          #logoDiv {
+        padding: 0px;
+        background-color: black;
+        
+        text-align: center;
+        width: 450px;
+      }
+    </style>
+
+    <script>
+      require([
+        "esri/config",
+        "esri/WebMap",
+        "esri/views/MapView",
+        "esri/widgets/Expand",
+        "esri/widgets/BasemapToggle",
+        "esri/widgets/Search",
+        "esri/widgets/Editor"
+      ], (
+        esriConfig,
+        WebMap,
+        MapView,
+        Expand,
+        BasemapToggle,
+        Search,
+        Editor
+      ) => {
+        let pointLayer;
+        
+        esriConfig.portalUrl = "https://gissolutions.halff.com/portal";
+
+        esriConfig.apiKey =
+          "AAPKbef19af26f80408b97ba8a8effb03fd8G3z1r-gSDCiWESD8DAq6Zb_dDQTMzdBrcy96j6nflpG5VOR6tviHDHsUNvMGnoWD";
+
+        // Create a map from the referenced webmap item id
+        const webmap = new WebMap({
+          portalItem: {
+            id: "aa6ca3a6e9724f56a64b8e75feabda1b"
+          }
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: webmap
+        });
+
+        const basemapToggle = new BasemapToggle({
+          view: view,
+          nextBasemap: "streets-navigation-vector"
+        });
+
+        view.ui.add(basemapToggle, "bottom-right");
+
+        view.when(() => {
+          view.map.loadAll().then(() => {
+            view.map.allLayers.forEach((layer) => {
+              if (layer.type === "feature") {
+                switch (layer.geometryType) {
+                  case "point":
+                    pointLayer = layer;
+                    break;
+                }
+              }
+            });
+
+            // Create layerInfos for layers in Editor. This
+            // sets the fields for editing.
+
+            const pointInfos = {
+              layer: pointLayer,
+              fieldConfig: [
+                {
+                  name: "Comment",
+                  label: "Comment"
+                }
+              ]
+            };
+
+            const editor = new Editor({
+              view: view,
+              allowedWorkflows: ["create"],
+              layerInfos: [
+                {
+                  layer: pointLayer,
+                  fieldConfig: [pointInfos]
+                }
+              ],
+              // Set the snapping options for the Editor. By default, snapping is enabled. This can be toggled on/off using the CTRL key.
+              snappingOptions: {
+                enabled: true,
+                selfEnabled: true,
+                featureEnabled: true,
+                featureSources: [
+                  {
+                    layer: pointLayer
+                  }
+                ]
+              }
+            });
+
+            editor.viewModel.watch("state", function (state) {
+              if (state === "ready") {
+                setTimeout(function () {
+                  document
+                    .getElementsByClassName("esri-editor__feature-list-item")[0]
+                    .click();
+                }, 50);
+              }
+            });
+            // Add widget to top-right of the view
+            view.ui.add(editor, "top-right");
+          });
+        });
+
+        const sampleInstructions = document.createElement("div");
+        sampleInstructions.style.padding = "10px";
+        sampleInstructions.style.backgroundColor = "white";
+        sampleInstructions.style.width = "600px";
+        sampleInstructions.innerText = [
+          "Instructions can go here as well"
+        ].join(" ");
+
+        const instructionsExpand = new Expand({
+          expandIconClass: "esri-icon-question",
+          expandTooltip: "Map description",
+          expanded: false,
+          view: view,
+          content: sampleInstructions
+        });
+        view.ui.add(instructionsExpand, "top-left");
+
+        const searchWidget = new Search({
+          view: view
+        });
+
+        // Add the search widget to the top right corner of the view
+        view.ui.add(searchWidget, {
+          position: "top-right"
+        });
+        view.ui.add("logoDiv", "bottom-left");
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+    <div id="instruction" class="esri-widget">
+          1. Zoom in to the location where you would like to leave feedback 
+    <br>  2. Select type of feedback you would like to leave in right hand pane
+    <br>  3. Click on the map to add a point
+    <br>  4. Leave a comment (optional)
+    </div>
+    <div id="editorDiv"></div>
+    <div id="logoDiv" class="esri-widget" style="cursor: pointer;" onclick="window.open('https://halff.com', '_blank');">
+      <img src="https://www.halff.com/wp-content/themes/mastertheme-v3-halff/images/main-logo.png"/>
+    </div>
+  </body>
+</html>
