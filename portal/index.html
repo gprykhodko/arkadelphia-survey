@@ -104,13 +104,12 @@
         view.when(() => {
           view.map.loadAll().then(() => {
             view.map.allLayers.forEach((layer) => {
-              if (layer.type === "feature") {
-                switch (layer.geometryType) {
-                  case "point":
+              
+                
                     pointLayer = layer;
-                    break;
-                }
-              }
+                    
+                
+              
             });
 
             // Create layerInfos for layers in Editor. This
@@ -120,7 +119,7 @@
               layer: pointLayer,
               fieldConfig: [
                 {
-                  name: "Comment",
+                  name: "comment",
                   label: "Comment"
                 }
               ]
