@@ -91,7 +91,10 @@
 
         const view = new MapView({
           container: "viewDiv",
-          map: webmap
+          map: webmap,
+          constraints: {
+          rotationEnabled: False
+          }
         });
 
         const basemapToggle = new BasemapToggle({
