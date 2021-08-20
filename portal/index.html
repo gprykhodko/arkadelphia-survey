@@ -75,13 +75,11 @@
         Search,
         Editor
       ) => {
-        let pointLayer;
         
         esriConfig.portalUrl = "https://gissolutions.halff.com/portal";
-
-        esriConfig.apiKey =
-          "AAPKbef19af26f80408b97ba8a8effb03fd8G3z1r-gSDCiWESD8DAq6Zb_dDQTMzdBrcy96j6nflpG5VOR6tviHDHsUNvMGnoWD";
-
+        
+        let pointLayer;
+        
         // Create a map from the referenced webmap item id
         const webmap = new WebMap({
           portalItem: {
