@@ -162,7 +162,11 @@
           });
         });
 
-       
+
+        const searchWidget = new Search({
+          view: view
+        });
+
         // Add the search widget to the top right corner of the view
         view.ui.add(searchWidget, {
           position: "top-right"
@@ -176,12 +180,12 @@
         view.ui.add(homeBtn, "top-left");
         
       });
-      
     </script>
   </head>
 
   <body>
     <div id="viewDiv"></div>
+    <div id="instruction" class="esri-widget">
           1. Zoom in to the location where you would like to leave feedback 
     <br>  2. Select type of feedback you would like to leave in right hand pane
     <br>  3. Click on the map to add a point
