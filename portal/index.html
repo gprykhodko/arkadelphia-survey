@@ -63,6 +63,7 @@
         "esri/WebMap",
         "esri/views/MapView",
         "esri/widgets/Expand",
+        "esri/widgets/Home",
         "esri/widgets/BasemapToggle",
         "esri/widgets/Search",
         "esri/widgets/Editor"
@@ -101,6 +102,12 @@
         });
 
         view.ui.add(basemapToggle, "bottom-right");
+        
+        var homeBtn = new Home({
+          view: view
+        });
+        
+        view.ui.add(homeBtn, "top-left");
 
         view.when(() => {
           view.map.loadAll().then(() => {
@@ -161,23 +168,6 @@
             view.ui.add(editor, "top-right");
           });
         });
-
-        const sampleInstructions = document.createElement("div");
-        sampleInstructions.style.padding = "10px";
-        sampleInstructions.style.backgroundColor = "white";
-        sampleInstructions.style.width = "600px";
-        sampleInstructions.innerText = [
-          "Instructions can go here as well"
-        ].join(" ");
-
-        const instructionsExpand = new Expand({
-          expandIconClass: "esri-icon-question",
-          expandTooltip: "Map description",
-          expanded: false,
-          view: view,
-          content: sampleInstructions
-        });
-        view.ui.add(instructionsExpand, "top-left");
 
         const searchWidget = new Search({
           view: view
