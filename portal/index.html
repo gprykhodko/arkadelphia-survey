@@ -62,7 +62,7 @@
         "esri/config",
         "esri/WebMap",
         "esri/views/MapView",
-        "esri/widgets/Expand",
+        "esri/widgets/Home",
         "esri/widgets/BasemapToggle",
         "esri/widgets/Search",
         "esri/widgets/Editor"
@@ -70,7 +70,7 @@
         esriConfig,
         WebMap,
         MapView,
-        Expand,
+        Home,
         BasemapToggle,
         Search,
         Editor
@@ -168,7 +168,15 @@
           position: "top-right"
         });
         view.ui.add("logoDiv", "bottom-left");
+        
+        const homeBtn = new Home({
+          view: view
+        });
+        
+        view.ui.add(homeBtn, "top-left");
+        
       });
+      
     </script>
   </head>
 
